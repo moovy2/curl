@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -30,9 +30,9 @@ static char *suburl(const char *base, int i)
   return curl_maprintf("%s%.4d", base, i);
 }
 
-int test(char *URL)
+CURLcode test(char *URL)
 {
-  int res;
+  CURLcode res;
   CURL *curl;
   int request = 1;
   char *stream_uri = NULL;
@@ -63,7 +63,7 @@ int test(char *URL)
     goto test_cleanup;
   }
   test_setopt(curl, CURLOPT_RTSP_STREAM_URI, stream_uri);
-  free(stream_uri);
+  curl_free(stream_uri);
   stream_uri = NULL;
 
   res = curl_easy_perform(curl);
@@ -84,7 +84,7 @@ int test(char *URL)
     goto test_cleanup;
   }
   test_setopt(curl, CURLOPT_RTSP_STREAM_URI, stream_uri);
-  free(stream_uri);
+  curl_free(stream_uri);
   stream_uri = NULL;
 
   res = curl_easy_perform(curl);
@@ -99,20 +99,20 @@ int test(char *URL)
     goto test_cleanup;
   }
   test_setopt(curl, CURLOPT_RTSP_STREAM_URI, stream_uri);
-  free(stream_uri);
+  curl_free(stream_uri);
   stream_uri = NULL;
 
   res = curl_easy_perform(curl);
   if(res == CURLE_RTSP_SESSION_ERROR) {
-    res = 0;
+    res = CURLE_OK;
   }
   else {
     fprintf(stderr, "Failed to detect a Session ID mismatch");
-    res = 1;
+    res = (CURLcode)1;
   }
 
 test_cleanup:
-  free(stream_uri);
+  curl_free(stream_uri);
 
   curl_easy_cleanup(curl);
   curl_global_cleanup();

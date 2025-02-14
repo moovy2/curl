@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -36,14 +36,10 @@
 #include "warnless.h"
 #include "memdebug.h"
 
-#if defined(WIN32) || defined(_WIN32)
-#define sleep(sec) Sleep ((sec)*1000)
-#endif
-
-int test(char *URL)
+CURLcode test(char *URL)
 {
   CURL *easy = NULL;
-  int res = 0;
+  CURLcode res = CURLE_OK;
 
   global_init(CURL_GLOBAL_ALL);
 
@@ -84,5 +80,5 @@ test_cleanup:
   curl_easy_cleanup(easy);
   curl_global_cleanup();
 
-  return (int)res;
+  return res;
 }

@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -28,19 +28,13 @@
 #define CURL_CA_BUNDLE "/sys/lib/tls/ca.pem"
 #define CURL_CA_PATH "/sys/lib/tls"
 #define CURL_STATICLIB 1
-#define ENABLE_IPV6 1
+#define USE_IPV6 1
 #define CURL_DISABLE_LDAP 1
 
 #define NEED_REENTRANT 1
-#define OS "plan9"
-#define PACKAGE "curl"
-#define PACKAGE_NAME "curl"
-#define PACKAGE_BUGREPORT "a suitable mailing list: https://curl.se/mail/"
-#define PACKAGE_STRING "curl -"
-#define PACKAGE_TARNAME "curl"
-#define PACKAGE_VERSION "-"
-#define RANDOM_FILE "/dev/random"
-#define VERSION "0.0.0" /* TODO */
+#ifndef CURL_OS
+#define CURL_OS "plan9"
+#endif
 
 #define STDC_HEADERS 1
 
@@ -74,10 +68,8 @@
 
 #define HAVE_ALARM 1
 #define HAVE_ARPA_INET_H 1
-#define HAVE_ASSERT_H 1
 #define HAVE_BASENAME 1
 #define HAVE_BOOL_T 1
-#define HAVE_ERRNO_H 1
 #define HAVE_FCNTL 1
 #define HAVE_FCNTL_H 1
 #define HAVE_FREEADDRINFO 1
@@ -91,7 +83,6 @@
 #define HAVE_GMTIME_R 1
 #define HAVE_INET_NTOP 1
 #define HAVE_INET_PTON 1
-#define HAVE_INTTYPES_H 1
 #define HAVE_LIBGEN_H 1
 #define HAVE_LIBZ 1
 #define HAVE_LOCALE_H 1
@@ -105,25 +96,19 @@
 #define USE_OPENSSL 1
 
 #define HAVE_PIPE 1
-#define HAVE_POLL_FINE 1
+#define HAVE_POLL 1
 #define HAVE_POLL_H 1
 #define HAVE_PTHREAD_H 1
-#define HAVE_SETJMP_H 1
 #define HAVE_SETLOCALE 1
 
 #define HAVE_SIGACTION 1
 #define HAVE_SIGNAL 1
-#define HAVE_SIGNAL_H 1
 #define HAVE_SIGSETJMP 1
 #define HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID 1
 #define HAVE_SOCKET 1
-#define HAVE_SSL_GET_SHUTDOWN 1
 #define HAVE_STDBOOL_H 1
-#define HAVE_STDINT_H 1
-#define HAVE_STDLIB_H 1
 #define HAVE_STRCASECMP 1
 #define HAVE_STRDUP 1
-#define HAVE_STRING_H 1
 #define HAVE_STRTOK_R 1
 #define HAVE_STRTOLL 1
 #define HAVE_STRUCT_TIMEVAL 1
@@ -136,15 +121,12 @@
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_SYS_UN_H 1
 #define HAVE_TERMIOS_H 1
-#define HAVE_TIME_H 1
 #define HAVE_UNISTD_H 1
 #define HAVE_UTIME 1
 #define HAVE_UTIME_H 1
 
 #define HAVE_POSIX_STRERROR_R 1
 #define HAVE_STRERROR_R 1
-
-#define TIME_WITH_SYS_TIME 1
 #define USE_MANUAL 1
 
 #define __attribute__(x)

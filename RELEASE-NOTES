@@ -1,36 +1,44 @@
-curl and libcurl 7.86.1
+curl and libcurl 8.12.2
 
- Public curl releases:         212
- Command line options:         248
- curl_easy_setopt() options:   300
- Public functions in libcurl:  91
- Contributors:                 2733
+ Public curl releases:         266
+ Command line options:         267
+ curl_easy_setopt() options:   306
+ Public functions in libcurl:  96
+ Contributors:                 3344
 
 This release includes the following changes:
 
- o
 
 This release includes the following bugfixes:
 
- o CURLMOPT_SOCKETFUNCTION.3: clarify CURL_POLL_REMOVE [1]
+ o managen: correct the warning for un-escaped '<' and '>' [1]
+ o strparse: switch the API to work on 'const char *' [2]
+ o lib: better optimized casecompare() and ncasecompare() [3]
 
 This release includes the following known bugs:
 
- o see docs/KNOWN_BUGS (https://curl.se/docs/knownbugs.html)
+ See https://curl.se/docs/knownbugs.html
+
+For all changes ever done in curl:
+
+ See https://curl.se/changes.html
 
 Planned upcoming removals include:
 
- o NSS
- o Support for systems without 64 bit data types
+ o Support for the msh3 HTTP/3 backend
+ o The winbuild build system
+ o TLS libraries not supporting TLS 1.3
 
- See https://curl.se/dev/deprecate.html for details
+ See https://curl.se/dev/deprecate.html
 
 This release would not have looked like this without help, code, reports and
 advice from friends like these:
 
-  Daniel Stenberg, Luca Niccoli
+  Daniel Stenberg, Sergey
   (2 contributors)
 
 References to bug reports and discussions on issues:
 
- [1] = https://curl.se/bug/?i=9799
+ [1] = https://curl.se/bug/?i=16315
+ [2] = https://curl.se/bug/?i=16316
+ [3] = https://curl.se/bug/?i=16311

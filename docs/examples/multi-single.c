@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -29,10 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/* somewhat unix-specific */
-#include <sys/time.h>
-#include <unistd.h>
-
 /* curl stuff */
 #include <curl/curl.h>
 
@@ -49,7 +45,7 @@ int main(void)
 
   http_handle = curl_easy_init();
 
-  /* set the options (I left out a few, you will get the point anyway) */
+  /* set the options (I left out a few, you get the point anyway) */
   curl_easy_setopt(http_handle, CURLOPT_URL, "https://www.example.com/");
 
   /* init a multi stack */

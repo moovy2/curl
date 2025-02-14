@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -55,7 +55,7 @@ char *stripcredentials(const char *url)
   char *nurl;
   u = curl_url();
   if(u) {
-    uc = curl_url_set(u, CURLUPART_URL, url, 0);
+    uc = curl_url_set(u, CURLUPART_URL, url, CURLU_GUESS_SCHEME);
     if(uc)
       goto error;
 
@@ -75,7 +75,7 @@ char *stripcredentials(const char *url)
 
     return nurl;
   }
-  error:
+error:
   curl_url_cleanup(u);
   return NULL;
 }
@@ -89,8 +89,8 @@ static int xattr(int fd,
 #ifdef DEBUGBUILD
     if(getenv("CURL_FAKE_XATTR")) {
       printf("%s => %s\n", attr, value);
+      return 0;
     }
-    return 0;
 #endif
 #ifdef HAVE_FSETXATTR_6
     err = fsetxattr(fd, attr, value, strlen(value), 0, 0);
@@ -114,7 +114,7 @@ static int xattr(int fd,
 int fwrite_xattr(CURL *curl, const char *url, int fd)
 {
   int i = 0;
-  int err = 0;
+  int err = xattr(fd, "user.creator", "curl");
 
   /* loop through all xattr-curlinfo pairs and abort on a set error */
   while(!err && mappings[i].attr) {

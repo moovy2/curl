@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -35,6 +35,9 @@ bool stdin_upload(const char *uploadfile);
 
 CURLcode add_file_name_to_url(CURL *curl, char **inurlp, const char *filename);
 
-CURLcode get_url_file_name(char **filename, const char *url);
+CURLcode get_url_file_name(struct GlobalConfig *global,
+                           char **filename, const char *url);
+
+CURLcode urlerr_cvt(CURLUcode ucode);
 
 #endif /* HEADER_CURL_TOOL_OPERHLP_H */

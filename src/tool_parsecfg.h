@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -26,5 +26,7 @@
 #include "tool_setup.h"
 
 int parseconfig(const char *filename, struct GlobalConfig *config);
+
+bool my_get_line(FILE *fp, struct curlx_dynbuf *db, bool *error);
 
 #endif /* HEADER_CURL_TOOL_PARSECFG_H */

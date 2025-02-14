@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -32,7 +32,7 @@
 typedef union {
   struct sockaddr      sa;
   struct sockaddr_in   sa4;
-#ifdef ENABLE_IPV6
+#ifdef USE_IPV6
   struct sockaddr_in6  sa6;
 #endif
 #ifdef USE_UNIX_SOCKETS

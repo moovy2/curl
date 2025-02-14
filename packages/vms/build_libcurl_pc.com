@@ -1,10 +1,8 @@
 $! File: build_libcurl_pc.com
 $!
-$! $Id:$
-$!
 $! Build the libcurl.pc file from the libcurl.pc.in file
 $!
-$! Copyright 2013 - 2022, John Malmberg
+$! Copyright (C) John Malmberg
 $!
 $! Permission to use, copy, modify, and/or distribute this software for any
 $! purpose with or without fee is hereby granted, provided that the above
@@ -19,8 +17,6 @@ $! ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 $! OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 $!
 $! SPDX-License-Identifier: ISC
-$!
-$! 15-Jun-2013  J. Malmberg
 $!
 $!===========================================================================
 $!
@@ -182,7 +178,7 @@ $ then
 $    write pco "Version: ''curl_version'"
 $    goto pc_file_loop
 $ endif
-$ if f$locate("@LIBCURL_LIBS@", line_in) .lt line_in_len
+$ if f$locate("@LIBCURL_PC_LIBS_PRIVATE@", line_in) .lt line_in_len
 $ then
 $    if arch_name .eqs. "VAX"
 $    then
@@ -192,7 +188,7 @@ $        write pco "Libs.private: -lssl -lcrypto -lgssapi -lz"
 $    endif
 $    goto pc_file_loop
 $ endif
-$ if f$locate("@CPPFLAG_CURL_STATICLIB@", line_in) .lt line_in_len
+$ if f$locate("@LIBCURL_PC_CFLAGS@", line_in) .lt line_in_len
 $ then
 $    write pco "Cflags: -I${includedir} -DCURL_STATICLIB"
 $    goto pc_file_loop

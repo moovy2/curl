@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 2020 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -27,7 +27,7 @@
 #include "warnless.h"
 #include "memdebug.h"
 
-int test(char *URL)
+CURLcode test(char *URL)
 {
   CURLcode ret = CURLE_OK;
   CURL *hnd;
@@ -46,5 +46,5 @@ int test(char *URL)
     curl_easy_cleanup(hnd);
   }
   curl_global_cleanup();
-  return (int)ret;
+  return ret;
 }

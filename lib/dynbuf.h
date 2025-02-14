@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 2020 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -39,6 +39,7 @@
 #define Curl_dyn_uptr(a) curlx_dyn_uptr(a)
 #define Curl_dyn_len(a) curlx_dyn_len(a)
 #define Curl_dyn_reset(a) curlx_dyn_reset(a)
+#define Curl_dyn_take(a,b) curlx_dyn_take(a,b)
 #define Curl_dyn_tail(a,b) curlx_dyn_tail(a,b)
 #define Curl_dyn_setlen(a,b) curlx_dyn_setlen(a,b)
 #define curlx_dynbuf dynbuf /* for the struct name */
@@ -61,9 +62,9 @@ CURLcode Curl_dyn_addn(struct dynbuf *s, const void *mem, size_t len)
 CURLcode Curl_dyn_add(struct dynbuf *s, const char *str)
   WARN_UNUSED_RESULT;
 CURLcode Curl_dyn_addf(struct dynbuf *s, const char *fmt, ...)
-  WARN_UNUSED_RESULT;
+  WARN_UNUSED_RESULT CURL_PRINTF(2, 3);
 CURLcode Curl_dyn_vaddf(struct dynbuf *s, const char *fmt, va_list ap)
-  WARN_UNUSED_RESULT;
+  WARN_UNUSED_RESULT CURL_PRINTF(2, 0);
 void Curl_dyn_reset(struct dynbuf *s);
 CURLcode Curl_dyn_tail(struct dynbuf *s, size_t trail);
 CURLcode Curl_dyn_setlen(struct dynbuf *s, size_t set);
@@ -75,14 +76,16 @@ size_t Curl_dyn_len(const struct dynbuf *s);
 /* The implementation of this function exists in mprintf.c */
 int Curl_dyn_vprintf(struct dynbuf *dyn, const char *format, va_list ap_save);
 
+/* Take the buffer out of the dynbuf. Caller has ownership and
+ * dynbuf resets to initial state. */
+char *Curl_dyn_take(struct dynbuf *s, size_t *plen);
+
 /* Dynamic buffer max sizes */
 #define DYN_DOH_RESPONSE    3000
 #define DYN_DOH_CNAME       256
 #define DYN_PAUSE_BUFFER    (64 * 1024 * 1024)
 #define DYN_HAXPROXY        2048
 #define DYN_HTTP_REQUEST    (1024*1024)
-#define DYN_H2_HEADERS      (128*1024)
-#define DYN_H2_TRAILERS     (128*1024)
 #define DYN_APRINTF         8000000
 #define DYN_RTSP_REQ_HEADER (64*1024)
 #define DYN_TRAILERS        (64*1024)
@@ -91,4 +94,5 @@ int Curl_dyn_vprintf(struct dynbuf *dyn, const char *format, va_list ap_save);
 #define DYN_H1_TRAILER      4096
 #define DYN_PINGPPONG_CMD   (64*1024)
 #define DYN_IMAP_CMD        (64*1024)
+#define DYN_MQTT_RECV       (64*1024)
 #endif

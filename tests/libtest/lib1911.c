@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -31,9 +31,9 @@
    define not publicly exposed so we set our own */
 #define MAX_INPUT_LENGTH 8000000
 
-static char buffer[MAX_INPUT_LENGTH + 2];
+static char testbuf[MAX_INPUT_LENGTH + 2];
 
-int test(char *URL)
+CURLcode test(char *URL)
 {
   const struct curl_easyoption *o;
   CURL *easy;
@@ -44,14 +44,14 @@ int test(char *URL)
   easy = curl_easy_init();
   if(!easy) {
     curl_global_cleanup();
-    return 1;
+    return (CURLcode)1;
   }
 
   /* make it a null-terminated C string with just As */
-  memset(buffer, 'A', MAX_INPUT_LENGTH + 1);
-  buffer[MAX_INPUT_LENGTH + 1] = 0;
+  memset(testbuf, 'A', MAX_INPUT_LENGTH + 1);
+  testbuf[MAX_INPUT_LENGTH + 1] = 0;
 
-  printf("string length: %d\n", (int)strlen(buffer));
+  printf("string length: %d\n", (int)strlen(testbuf));
 
   for(o = curl_easy_option_next(NULL);
       o;
@@ -61,20 +61,22 @@ int test(char *URL)
       /*
        * Whitelist string options that are safe for abuse
        */
-      switch(o->id) {
-      case CURLOPT_PROXY_TLSAUTH_TYPE:
-      case CURLOPT_TLSAUTH_TYPE:
-      case CURLOPT_RANDOM_FILE:
-      case CURLOPT_EGDSOCKET:
-        continue;
-      default:
-        /* check this */
-        break;
-      }
+      CURL_IGNORE_DEPRECATION(
+        switch(o->id) {
+        case CURLOPT_PROXY_TLSAUTH_TYPE:
+        case CURLOPT_TLSAUTH_TYPE:
+        case CURLOPT_RANDOM_FILE:
+        case CURLOPT_EGDSOCKET:
+          continue;
+        default:
+          /* check this */
+          break;
+        }
+      )
 
       /* This is a string. Make sure that passing in a string longer
          CURL_MAX_INPUT_LENGTH returns an error */
-      result = curl_easy_setopt(easy, o->id, buffer);
+      result = curl_easy_setopt(easy, o->id, testbuf);
       switch(result) {
       case CURLE_BAD_FUNCTION_ARGUMENT: /* the most normal */
       case CURLE_UNKNOWN_OPTION: /* left out from the build */
@@ -84,7 +86,7 @@ int test(char *URL)
       default:
         /* all other return codes are unexpected */
         fprintf(stderr, "curl_easy_setopt(%s...) returned %d\n",
-                o->name, (int)result);
+                o->name, result);
         error++;
         break;
       }
@@ -92,5 +94,5 @@ int test(char *URL)
   }
   curl_easy_cleanup(easy);
   curl_global_cleanup();
-  return error;
+  return error == 0 ? CURLE_OK : TEST_ERR_FAILURE;
 }

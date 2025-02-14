@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -27,7 +27,6 @@
  */
 #include <stdio.h>
 #include <fcntl.h>
-#include <sys/stat.h>
 #include <curl/curl.h>
 
 static const char olivertwist[]=
@@ -58,7 +57,7 @@ int main(int argc, char **argv)
 
   url = argv[1];
 
-  /* In windows, this will init the winsock stuff */
+  /* In Windows, this inits the Winsock stuff */
   curl_global_init(CURL_GLOBAL_ALL);
 
   /* get a curl handle */

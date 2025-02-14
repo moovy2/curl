@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -30,12 +30,12 @@
 #define TEST_HANG_TIMEOUT 60 * 1000
 #define WAKEUP_NUM 10
 
-int test(char *URL)
+CURLcode test(char *URL)
 {
   CURLM *multi = NULL;
   int numfds;
   int i;
-  int res = 0;
+  CURLcode res = CURLE_OK;
   struct timeval time_before_wait, time_after_wait;
 
   (void)URL;

@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 2020 - 2022, Simon Josefsson, <simon@josefsson.org>, et al.
+ * Copyright (C) Simon Josefsson, <simon@josefsson.org>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -59,7 +59,7 @@ bool Curl_auth_gsasl_is_supported(struct Curl_easy *data,
     return FALSE;
   }
 
-  return true;
+  return TRUE;
 }
 
 CURLcode Curl_auth_gsasl_start(struct Curl_easy *data,

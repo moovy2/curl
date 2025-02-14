@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -30,13 +30,10 @@
 
 #pragma enum(int)
 
-#undef PACKAGE
-
-/* Version number of this archive. */
-#undef VERSION
-
 /* Define cpu-machine-OS */
-#define OS "OS/400"
+#ifndef CURL_OS
+#define CURL_OS "OS/400"
+#endif
 
 /* OS400 supports a 3-argument ASCII version of gethostbyaddr_r(), but its
  *  prototype is incompatible with the "standard" one (1st argument is not
@@ -55,19 +52,13 @@
 #undef NEED_REENTRANT
 
 /* Define if you want to enable IPv6 support */
-#define ENABLE_IPV6
+#define USE_IPV6
 
 /* Define if struct sockaddr_in6 has the sin6_scope_id member */
 #define HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID 1
 
 /* Define this to 'int' if ssize_t is not an available typedefed type */
 #undef ssize_t
-
-/* Define this as a suitable file to read random data from */
-#undef RANDOM_FILE
-
-/* Define this to your Entropy Gathering Daemon socket pathname */
-#undef EGD_SOCKET
 
 /* Define to 1 if you have the alarm function. */
 #define HAVE_ALARM 1
@@ -77,9 +68,6 @@
 
 /* Define if you have the `closesocket' function. */
 #undef HAVE_CLOSESOCKET
-
-/* Define if you have the <errno.h> header file. */
-#define HAVE_ERRNO_H
 
 /* Define if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H
@@ -108,29 +96,14 @@
 /* Define if you have the `timeval' struct. */
 #define HAVE_STRUCT_TIMEVAL
 
-/* Define if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES_H
-
 /* Define if you have the <io.h> header file. */
 #undef HAVE_IO_H
-
-/* Define if you have the `socket' library (-lsocket). */
-#undef HAVE_LIBSOCKET
 
 /* Define if you have GSS API. */
 #define HAVE_GSSAPI
 
 /* Define if you have the GNU gssapi libraries */
 #undef HAVE_GSSGNU
-
-/* Define if you have the Heimdal gssapi libraries */
-#define HAVE_GSSHEIMDAL
-
-/* Define if you have the MIT gssapi libraries */
-#undef HAVE_GSSMIT
-
-/* Define if you need the malloc.h header file even with stdlib.h  */
-/* #define NEED_MALLOC_H 1 */
 
 /* Define if you have the <netdb.h> header file. */
 #define HAVE_NETDB_H
@@ -144,9 +117,6 @@
 /* Define if you have the <pwd.h> header file. */
 #define HAVE_PWD_H
 
-/* Define if you have the `RAND_egd' function. */
-#undef HAVE_RAND_EGD
-
 /* Define if you have the `select' function. */
 #define HAVE_SELECT
 
@@ -156,20 +126,8 @@
 /* Define if you have the `signal' function. */
 #undef HAVE_SIGNAL
 
-/* Define if you have the <signal.h> header file. */
-#define HAVE_SIGNAL_H
-
 /* Define if you have the `socket' function. */
 #define HAVE_SOCKET
-
-/* Define if you have the <ssl.h> header file. */
-#undef HAVE_SSL_H
-
-/* Define if you have the <stdint.h> header file. */
-#undef HAVE_STDINT_H
-
-/* Define if you have the <stdlib.h> header file. */
-#define HAVE_STDLIB_H
 
 
 /* The following define is needed on OS400 to enable strcmpi(), stricmp() and
@@ -190,9 +148,6 @@
 
 /* Define if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H
-
-/* Define if you have the <string.h> header file. */
-#define HAVE_STRING_H
 
 /* Define if you have the <stropts.h> header file. */
 #undef HAVE_STROPTS_H
@@ -236,14 +191,8 @@
 /* Define if you have the <termio.h> header file. */
 #undef HAVE_TERMIO_H
 
-/* Define if you have the <time.h> header file. */
-#define HAVE_TIME_H
-
 /* Define if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H
-
-/* Name of package */
-#undef PACKAGE
 
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT              4
@@ -269,12 +218,9 @@
 /* Define if you have the ANSI C header files. */
 #define STDC_HEADERS
 
-/* Define if you can safely include both <sys/time.h> and <time.h>. */
-#define TIME_WITH_SYS_TIME
-
-/* Define to enable HTTP3 support (experimental, requires NGTCP2, QUICHE or
+/* Define to enable HTTP3 support (experimental, requires NGTCP2, quiche or
    MSH3) */
-#undef ENABLE_QUIC
+#undef USE_HTTP3
 
 /* Version number of package */
 #undef VERSION
@@ -287,9 +233,6 @@
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
-
-/* type to use in place of in_addr_t if not defined */
-#define in_addr_t       unsigned long
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
@@ -347,9 +290,6 @@
 
 /* Define to the function return type for send. */
 #define SEND_TYPE_RETV int
-
-/* Define to use the GSKit package. */
-#define USE_GSKIT
 
 /* Define to use the OS/400 crypto library. */
 #define USE_OS400CRYPTO

@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -33,10 +33,12 @@
 
 #include <curl/curl.h>
 
-#ifdef WIN32
-#  define FILENO(fp) _fileno(fp)
-#else
-#  define FILENO(fp) fileno(fp)
+#ifdef _WIN32
+#undef stat
+#define stat _stat
+#undef fstat
+#define fstat _fstat
+#define fileno _fileno
 #endif
 
 #if LIBCURL_VERSION_NUM < 0x070c03
@@ -60,7 +62,7 @@ static int my_seek(void *userp, curl_off_t offset, int origin)
   FILE *fp = (FILE *) userp;
 
   if(-1 == fseek(fp, (long) offset, origin))
-    /* couldn't seek */
+    /* could not seek */
     return CURL_SEEKFUNC_CANTSEEK;
 
   return CURL_SEEKFUNC_OK; /* success! */
@@ -69,17 +71,15 @@ static int my_seek(void *userp, curl_off_t offset, int origin)
 /* read callback function, fread() look alike */
 static size_t read_callback(char *ptr, size_t size, size_t nmemb, void *stream)
 {
-  ssize_t retcode;
-  unsigned long nread;
+  size_t nread;
 
-  retcode = fread(ptr, size, nmemb, stream);
+  nread = fread(ptr, size, nmemb, stream);
 
-  if(retcode > 0) {
-    nread = (unsigned long)retcode;
-    fprintf(stderr, "*** We read %lu bytes from file\n", nread);
+  if(nread > 0) {
+    fprintf(stderr, "*** We read %lu bytes from file\n", (unsigned long)nread);
   }
 
-  return retcode;
+  return nread;
 }
 
 int main(int argc, char **argv)
@@ -100,9 +100,12 @@ int main(int argc, char **argv)
 
   /* get the file size of the local file */
   fp = fopen(file, "rb");
-  fstat(FILENO(fp), &file_info);
+  if(!fp)
+    return 2;
 
-  /* In windows, this will init the winsock stuff */
+  fstat(fileno(fp), &file_info);
+
+  /* In Windows, this inits the Winsock stuff */
   curl_global_init(CURL_GLOBAL_ALL);
 
   /* get a curl handle */

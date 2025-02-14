@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -28,14 +28,10 @@
 /*               Hand crafted config file for RISC OS               */
 /* ================================================================ */
 
-/* Name of this package! */
-#undef PACKAGE
-
-/* Version number of this archive. */
-#undef VERSION
-
 /* Define cpu-machine-OS */
-#define OS "ARM-RISC OS"
+#ifndef CURL_OS
+#define CURL_OS "ARM-RISC OS"
+#endif
 
 /* Define if you want the built-in manual */
 #define USE_MANUAL
@@ -53,22 +49,13 @@
 #undef NEED_REENTRANT
 
 /* Define if you want to enable IPv6 support */
-#undef ENABLE_IPV6
+#undef USE_IPV6
 
 /* Define if struct sockaddr_in6 has the sin6_scope_id member */
 #define HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID 1
 
 /* Define this to 'int' if ssize_t is not an available typedefed type */
 #undef ssize_t
-
-/* Define this as a suitable file to read random data from */
-#undef RANDOM_FILE
-
-/* Define this to your Entropy Gathering Daemon socket pathname */
-#undef EGD_SOCKET
-
-/* Define if you want to enable IPv6 support */
-#undef ENABLE_IPV6
 
 /* Define if you have the alarm function. */
 #define HAVE_ALARM
@@ -78,9 +65,6 @@
 
 /* Define if you have the `closesocket' function. */
 #undef HAVE_CLOSESOCKET
-
-/* Define if you have the <errno.h> header file. */
-#define HAVE_ERRNO_H
 
 /* Define if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H
@@ -112,17 +96,8 @@
 /* Define if you have the `timeval' struct. */
 #define HAVE_STRUCT_TIMEVAL
 
-/* Define if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES_H
-
 /* Define if you have the <io.h> header file. */
 #undef HAVE_IO_H
-
-/* Define if you have the `socket' library (-lsocket). */
-#undef HAVE_LIBSOCKET
-
-/* Define if you need the malloc.h header file even with stdlib.h  */
-/* #define NEED_MALLOC_H 1 */
 
 /* Define if you have the <netdb.h> header file. */
 #define HAVE_NETDB_H
@@ -136,9 +111,6 @@
 /* Define if you have the <pwd.h> header file. */
 #undef HAVE_PWD_H
 
-/* Define if you have the `RAND_egd' function. */
-#undef HAVE_RAND_EGD
-
 /* Define if you have the `select' function. */
 #define HAVE_SELECT
 
@@ -148,20 +120,8 @@
 /* Define if you have the `signal' function. */
 #define HAVE_SIGNAL
 
-/* Define if you have the <signal.h> header file. */
-#define HAVE_SIGNAL_H
-
 /* Define if you have the `socket' function. */
 #define HAVE_SOCKET
-
-/* Define if you have the <ssl.h> header file. */
-#undef HAVE_SSL_H
-
-/* Define if you have the <stdint.h> header file. */
-#undef HAVE_STDINT_H
-
-/* Define if you have the <stdlib.h> header file. */
-#define HAVE_STDLIB_H
 
 /* Define if you have the `strcasecmp' function. */
 #undef HAVE_STRCASECMP
@@ -177,9 +137,6 @@
 
 /* Define if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
-
-/* Define if you have the <string.h> header file. */
-#define HAVE_STRING_H
 
 /* Define if you have the `strtok_r' function. */
 #undef HAVE_STRTOK_R
@@ -214,14 +171,8 @@
 /* Define if you have the <termio.h> header file. */
 #undef HAVE_TERMIO_H
 
-/* Define if you have the <time.h> header file. */
-#undef HAVE_TIME_H
-
 /* Define if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H
-
-/* Name of package */
-#undef PACKAGE
 
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT 4
@@ -235,18 +186,8 @@
 /* Define if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* Define if you can safely include both <sys/time.h> and <time.h>. */
-#undef TIME_WITH_SYS_TIME
-
 /* Version number of package */
 #undef VERSION
-
-/* Define if on AIX 3.
-   System headers sometimes define this.
-   We just want to avoid a redefinition error message.  */
-#ifndef _ALL_SOURCE
-# undef _ALL_SOURCE
-#endif
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #undef _FILE_OFFSET_BITS

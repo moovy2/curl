@@ -5,7 +5,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -28,15 +28,15 @@
 #include "curl_base64.h"
 #include "memdebug.h" /* LAST include file */
 
-static struct Curl_easy *data;
+static struct Curl_easy *testdata;
 
 static CURLcode unit_setup(void)
 {
   CURLcode res = CURLE_OK;
 
   global_init(CURL_GLOBAL_ALL);
-  data = curl_easy_init();
-  if(!data) {
+  testdata = curl_easy_init();
+  if(!testdata) {
     curl_global_cleanup();
     return CURLE_OUT_OF_MEMORY;
   }
@@ -45,7 +45,7 @@ static CURLcode unit_setup(void)
 
 static void unit_stop(void)
 {
-  curl_easy_cleanup(data);
+  curl_easy_cleanup(testdata);
   curl_global_cleanup();
 }
 
@@ -169,6 +169,15 @@ fail_unless(rc == CURLE_BAD_CONTENT_ENCODING,
 fail_unless(size == 0, "size should be 0");
 fail_if(decoded, "returned pointer should be NULL");
 
+/* This is also illegal input as it contains a padding character mid input */
+size = 1; /* not zero */
+decoded = &anychar; /* not NULL */
+rc = Curl_base64_decode("aWlpa=Q=", &decoded, &size);
+fail_unless(rc == CURLE_BAD_CONTENT_ENCODING,
+            "return code should be CURLE_BAD_CONTENT_ENCODING");
+fail_unless(size == 0, "size should be 0");
+fail_if(decoded, "returned pointer should be NULL");
+
 /* This is garbage input as it contains an illegal base64 character */
 size = 1; /* not zero */
 decoded = &anychar; /* not NULL */
@@ -177,5 +186,6 @@ fail_unless(rc == CURLE_BAD_CONTENT_ENCODING,
             "return code should be CURLE_BAD_CONTENT_ENCODING");
 fail_unless(size == 0, "size should be 0");
 fail_if(decoded, "returned pointer should be NULL");
+
 
 UNITTEST_STOP
